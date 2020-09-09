@@ -1,14 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Game_Dev_PoC</RootNamespace>
   </PropertyGroup>
-
   <ItemGroup>
+    <Compile Include="CharacterInformation.fs" />
     <Compile Include="Characters.fs" />
     <Compile Include="GameItems.fs" />
   </ItemGroup>
-
 </Project>
