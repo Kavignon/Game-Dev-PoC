@@ -6,7 +6,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CharacterInformation.fs" />
-    <Compile Include="Characters.fs" />
     <Compile Include="GameItems.fs" />
+    <Compile Include="GameUnit.fs" />
+    <Compile Include="TeamInventory.fs" />
+    <Compile Include="GameStore.fs" />
   </ItemGroup>
 </Project>
