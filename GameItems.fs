@@ -1,135 +1,140 @@
-type ConsumableItem =
-    | HealthPotion
-    | HighHealthPotion
-    | MegaHealthPotion
-    | Elixir
-    | HighElixir
-    | MegaElixir
-    | PhoenixFeather
-    | MedicinalHerb
-    override x.ToString() =
-        match x with
-        | HealthPotion     -> "Health Potion"
-        | HighHealthPotion  -> "High Health Potion"
-        | MegaHealthPotion -> "Mega Health Potion"
-        | Elixir            -> "Elixir"
-        | HighElixir        -> "High Elixir"
-        | MegaElixir        -> "Mega Elixir"
-        | PhoenixFeather    -> "Phoenix Feather"
-        | MedicinalHerb     -> "Medicinal Herb"
+namespace GameUnit.Dev.PoC
 
-    member x.Name =
-        match x with
-        | _ -> x.ToString()
+open CharacterInformation
 
-    member x.Weight =
-        match x with
-        | HealthPotion       -> 0.02
-        | HighHealthPotion   -> 0.03
-        | MegaHealthPotion   -> 0.05
-        | Elixir             -> 0.02
-        | HighElixir         -> 0.03
-        | MegaElixir         -> 0.05
-        | PhoenixFeather     -> 0.05
-        | MedicinalHerb      -> 0.03
-
-    member x.Price =
-        match x with
-        | HealthPotion       -> 100
-        | HighHealthPotion   -> 150
-        | MegaHealthPotion   -> 225
-        | Elixir             -> 125
-        | HighElixir         -> 175
-        | MegaElixir         -> 275
-        | PhoenixFeather     -> 350
-        | MedicinalHerb      -> 50
-
-type WeaponRank =
-        | RankE
-        | RankD
-        | RankC
-        | RankB
-        | RankA
-        | RankS
-    with 
-        member x.rankMultiplier = 
+[<AutoOpen>]
+module Consummables =
+    type ConsumableItem =
+        | HealthPotion
+        | HighHealthPotion
+        | MegaHealthPotion
+        | Elixir
+        | HighElixir
+        | MegaElixir
+        | PhoenixFeather
+        | MedicinalHerb
+        override x.ToString() =
             match x with
-            | RankE -> 1.0100
-            | RankD -> 1.0375
-            | RankC -> 1.0925
-            | RankB -> 1.1250
-            | RankA -> 1.1785
-            | RankS -> 1.2105
+            | HealthPotion     -> "Health Potion"
+            | HighHealthPotion  -> "High Health Potion"
+            | MegaHealthPotion -> "Mega Health Potion"
+            | Elixir            -> "Elixir"
+            | HighElixir        -> "High Elixir"
+            | MegaElixir        -> "Mega Elixir"
+            | PhoenixFeather    -> "Phoenix Feather"
+            | MedicinalHerb     -> "Medicinal Herb"
 
-type IStats =
-    abstract member showStat : unit -> string
+        member x.Name =
+            match x with
+            | _ -> x.ToString()
 
-type WeaponStat = {
-    Damage : float
-    Intelligence : float
-    Defense : float
-    Speed : float
-    Critical : float
-    HitLimit : int
-    Rank : WeaponRank
-}
-with
-    interface IStats with
-        member x.showStat() =
-            let oIntelVal =
-                match x.Intelligence with
-                | Some v -> v
-                | None -> 0.00
+        member x.Weight =
+            match x with
+            | HealthPotion       -> 0.02
+            | HighHealthPotion   -> 0.03
+            | MegaHealthPotion   -> 0.05
+            | Elixir             -> 0.02
+            | HighElixir         -> 0.03
+            | MegaElixir         -> 0.05
+            | PhoenixFeather     -> 0.05
+            | MedicinalHerb      -> 0.03
 
-            sprintf "Weapon damage : %O - Intelligence : %O - Defense : %O - Speed : %O - Critical hit : %O - Weapon hit limit : %O - Weapon rank : %O"
-                x.Damage oIntelVal x.Defense x.Speed x.Critical x.HitLimit x.Rank
+        member x.Price =
+            match x with
+            | HealthPotion       -> 100
+            | HighHealthPotion   -> 150
+            | MegaHealthPotion   -> 225
+            | Elixir             -> 125
+            | HighElixir         -> 175
+            | MegaElixir         -> 275
+            | PhoenixFeather     -> 350
+            | MedicinalHerb      -> 50
 
-type MagicalWeaponStat = {
-    AttackRange : int
-    Damage      : float
-    Rank        : WeaponRank
-    Uses        : int
-    ManaCost    : float
-}
-with
-    interface IStats with
-        member x.showStat() =
-            sprintf "Damage : %O - Attack range : %O - Mana cost: %O - Number of use: %O - Rank of spell: %O" x.Damage x.AttackRange x.ManaCost x.Uses x.Rank
+    type WeaponRank =
+            | RankE
+            | RankD
+            | RankC
+            | RankB
+            | RankA
+            | RankS
+        with 
+            member x.rankMultiplier = 
+                match x with
+                | RankE -> 1.0100
+                | RankD -> 1.0375
+                | RankC -> 1.0925
+                | RankB -> 1.1250
+                | RankA -> 1.1785
+                | RankS -> 1.2105
 
-type ItemDetails = {
-    Weight: float
-    Price: int 
-}
+    type IStats =
+        abstract member showStat : unit -> string
 
-type PhysicalWeaponType =
-    | Dagger
-    | Sword
-    | Axe
-    | Spear
-    | Blade
-    | Staff 
+    type WeaponStat = {
+        Damage : float
+        Intelligence : float option
+        Defense : float
+        Speed : float
+        Critical : float
+        HitLimit : int
+        Rank : WeaponRank
+    }
+    with
+        interface IStats with
+            member x.showStat() =
+                let oIntelVal =
+                    match x.Intelligence with
+                    | Some v -> v
+                    | None -> 0.00
 
-type MagicalWeaponType =
-    | Spellbook
-    // Could later add wands, amulets, etc.
+                sprintf "Weapon damage : %O - Intelligence : %O - Defense : %O - Speed : %O - Critical hit : %O - Weapon hit limit : %O - Weapon rank : %O"
+                    x.Damage oIntelVal x.Defense x.Speed x.Critical x.HitLimit x.Rank
 
-type WeaponDetails =
-    | PhysicalWeapon of PhysicalWeaponType * WeaponStat
-    | MagicalWeapon of MagicalWeaponType * MagicalWeaponStat
-        
-type Weaponry = {
-    Name: string
-    ItemDetails: ItemDetails
-    WeaponDetails: WeaponDetails 
-}
-with
-    member x.Name = x.Name
-    member x.Weight = x.ItemDetails.Weight
-    member x.Price  = x.ItemDetails.Price
-    member x.Stats  =
-        match x.WeaponDetails with
-        | PhysicalWeapon (_, stats) -> stats :> IStats
-        | MagicalWeapon  (_, stats) -> stats :> IStats
+    type MagicalWeaponStat = {
+        AttackRange : int
+        Damage      : float
+        Rank        : WeaponRank
+        Uses        : int
+        ManaCost    : float
+    }
+    with
+        interface IStats with
+            member x.showStat() =
+                sprintf "Damage : %O - Attack range : %O - Mana cost: %O - Number of use: %O - Rank of spell: %O" x.Damage x.AttackRange x.ManaCost x.Uses x.Rank
+
+    type ItemDetails = {
+        Weight: float
+        Price: int 
+    }
+
+    type PhysicalWeaponType =
+        | Dagger
+        | Sword
+        | Axe
+        | Spear
+        | Blade
+        | Staff 
+
+    type MagicalWeaponType =
+        | Spellbook
+        // Could later add wands, amulets, etc.
+
+    type WeaponDetails =
+        | PhysicalWeapon of PhysicalWeaponType * WeaponStat
+        | MagicalWeapon of MagicalWeaponType * MagicalWeaponStat
+            
+    type Weaponry = {
+        Name: string
+        ItemDetails: ItemDetails
+        WeaponDetails: WeaponDetails 
+    }
+    with
+        member x.Weight = x.ItemDetails.Weight
+        member x.Price  = x.ItemDetails.Price
+        member x.Stats  =
+            match x.WeaponDetails with
+            | PhysicalWeapon (_, stats) -> stats :> IStats
+            | MagicalWeapon  (_, stats) -> stats :> IStats
 
 module PhysicalWeapons =
     [<AutoOpen>]
@@ -303,37 +308,37 @@ module PhysicalWeapons =
         let bookOfFireball = {
             Name = "Fireball"
             ItemDetails = rank1SpellbookDetails
-            WeaponDetails = MagicalWeapon (Spellbook, { Damage = 8.0; AttackRange = 1; Rank = RankE; Uses = 30 ; ManaCost = 12.0<mp> })
+            WeaponDetails = MagicalWeapon (Spellbook, { Damage = 8.0; AttackRange = 1; Rank = RankE; Uses = 30 ; ManaCost = 12.0 })
         }
 
         let bookOfThunder = {
             Name = "Thunder"
             ItemDetails = rank1SpellbookDetails
-            WeaponDetails = MagicalWeapon (Spellbook, { Damage = 8.0; AttackRange = 1; Rank = RankE; Uses = 30 ; ManaCost = 12.0<mp> })
+            WeaponDetails = MagicalWeapon (Spellbook, { Damage = 8.0; AttackRange = 1; Rank = RankE; Uses = 30 ; ManaCost = 12.0 })
         }
 
         let bookOfFrost= {
             Name = "Thunder"
             ItemDetails = rank1SpellbookDetails
-            WeaponDetails = MagicalWeapon (Spellbook, { Damage = 8.0; AttackRange = 1; Rank = RankE; Uses = 30 ; ManaCost = 12.0<mp> })
+            WeaponDetails = MagicalWeapon (Spellbook, { Damage = 8.0; AttackRange = 1; Rank = RankE; Uses = 30 ; ManaCost = 12.0 })
         }
 
         let bookOfHellfire = {
             Name = "Hellfire"
             ItemDetails = rank2SpellbookDetails
-            WeaponDetails = MagicalWeapon (Spellbook, { Damage = 6.50; AttackRange = 2; Rank = RankD; Uses = 25; ManaCost = 20.0<mp> })
+            WeaponDetails = MagicalWeapon (Spellbook, { Damage = 6.50; AttackRange = 2; Rank = RankD; Uses = 25; ManaCost = 20.0 })
         }
 
         let bookOfBlackFire = {
             Name = "Black fire"
             ItemDetails = rank2SpellbookDetails
-            WeaponDetails = MagicalWeapon (Spellbook, { Damage = 11.2; AttackRange = 2; Rank = RankC; Uses = 20; ManaCost = 25.0<mp> })
+            WeaponDetails = MagicalWeapon (Spellbook, { Damage = 11.2; AttackRange = 2; Rank = RankC; Uses = 20; ManaCost = 25.0 })
         }
 
         let bookOfStormOfBlades = {
             Name = "Storm of blades"
             ItemDetails = rank2SpellbookDetails
-            WeaponDetails = MagicalWeapon (Spellbook, { Damage = 5.80; AttackRange = 3; Rank = RankD; Uses = 30; ManaCost = 22.0<mp> })
+            WeaponDetails = MagicalWeapon (Spellbook, { Damage = 5.80; AttackRange = 3; Rank = RankD; Uses = 30; ManaCost = 22.0 })
         }
         
     let computeCharacterOverallOffensive (weapon: Weaponry) (cStats: CharacterStats) =
@@ -347,7 +352,7 @@ module PhysicalWeapons =
             | PhysicalWeapon (_, stats) -> stats.Rank
             | MagicalWeapon  (_, stats) -> stats.Rank
 
-        cStats.Strength * weaponRank.rankMultiplier * weaponDamage
+        cStats.PhysicalStrength * weaponRank.rankMultiplier * weaponDamage
 
 [<AutoOpen>]
 module CharacterWearableProtection =
@@ -534,10 +539,10 @@ module CharacterWearableProtection =
                 { Defense = 5.15; Resistance = 1.35; Intelligence = None; MagicResist = 0.45; Speed = 0.95; EquipmentUsage = 100 }
 
     type RingStats = {
-        ExtraStrength : float<str> option
-        ExtraDamage   : float<dmg> option
-        ExtraHealth   : float<hp> option
-        ExtraMana     : float<mp> option
+        ExtraStrength : float option
+        ExtraDamage   : float option
+        ExtraHealth   : float option
+        ExtraMana     : float option
     }
     with
         interface IStats with
@@ -571,10 +576,10 @@ module CharacterWearableProtection =
 
         member x.CharacterProtectionStat =
             match x with
-            | ExtraDamageRing ->  { RingStats.Initial with ExtraDamage = Some 5.00<dmg> }
-            | ExtraStrenghtRing -> { RingStats.Initial with ExtraStrength = Some 4.50<str> }
-            | ExtraHealthRing -> { RingStats.Initial with ExtraHealth = Some 12.00<hp> }
-            | ExtraManaRing -> { RingStats.Initial with ExtraMana = Some 7.00<mp> }
+            | ExtraDamageRing ->  { RingStats.Initial with ExtraDamage = Some 5.00 }
+            | ExtraStrenghtRing -> { RingStats.Initial with ExtraStrength = Some 4.50 }
+            | ExtraHealthRing -> { RingStats.Initial with ExtraHealth = Some 12.00 }
+            | ExtraManaRing -> { RingStats.Initial with ExtraMana = Some 7.00 }
 
     type ShieldStats = {
         Defense : float
@@ -713,7 +718,7 @@ module CharacterWearableProtection =
             member x.Name = 
                 match x with
                 | Consumable c -> c.Name 
-                | Equipement w -> e.Name
+                | Equipement e -> e.Name
 
             member x.Price = 
                 match x with 
