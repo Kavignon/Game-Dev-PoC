@@ -26,34 +26,40 @@ type CharacterStats = {
     Weight: float
 }
 
+type RoleRank =
+    | Beginner
+    | Intermediate
+    | Advanced
+    | Master
+
 type CharacterJob = 
-    | Healer        of CharacterRole  * CharacterStats
-    | Knight        of CharacterRole  * CharacterStats
-    | Berserker     of CharacterRole  * CharacterStats
-    | Rider         of CharacterRole  * CharacterStats
-    | Paladin       of CharacterRole  * CharacterStats
-    | BowAndBlade   of CharacterRole  * CharacterStats
-    | Necromancer   of CharacterRole  * CharacterStats
+    | Healer        of RoleRank * CharacterRole  * CharacterStats
+    | Knight        of RoleRank * CharacterRole  * CharacterStats
+    | Berserker     of RoleRank * CharacterRole  * CharacterStats
+    | Rider         of RoleRank * CharacterRole  * CharacterStats
+    | Paladin       of RoleRank * CharacterRole  * CharacterStats
+    | BowAndBlade   of RoleRank * CharacterRole  * CharacterStats
+    | Necromancer   of RoleRank * CharacterRole  * CharacterStats
 with 
     member x.Stats = 
         match x with
-        | Healer       (_,stats) -> stats
-        | Knight       (_,stats) -> stats
-        | Berserker    (_,stats) -> stats
-        | Rider        (_,stats) -> stats
-        | Paladin      (_,stats) -> stats
-        | BowAndBlade  (_,stats) -> stats
-        | Necromancer  (_,stats) -> stats
+        | Healer       (_, _,stats) -> stats
+        | Knight       (_, _,stats) -> stats
+        | Berserker    (_, _,stats) -> stats
+        | Rider        (_, _,stats) -> stats
+        | Paladin      (_, _,stats) -> stats
+        | BowAndBlade  (_, _,stats) -> stats
+        | Necromancer  (_, _,stats) -> stats
 
     member x.Role = 
         match x with
-        | Healer       (role, _) -> role
-        | Knight       (role, _) -> role
-        | Berserker    (role, _) -> role
-        | Rider        (role, _) -> role
-        | Paladin      (role, _) -> role
-        | BowAndBlade  (role, _) -> role
-        | Necromancer  (role, _) -> role
+        | Healer       (_, role, _) -> role
+        | Knight       (_, role, _) -> role
+        | Berserker    (_, role, _) -> role
+        | Rider        (_, role, _) -> role
+        | Paladin      (_, role, _) -> role
+        | BowAndBlade  (_, role, _) -> role
+        | Necromancer  (_, role, _) -> role
 
 type CharacterState = 
     | Healthy 
