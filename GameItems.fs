@@ -129,7 +129,6 @@ module Consummables =
         WeaponDetails: WeaponDetails 
     }
     with
-        member x.Name = x.Name
         member x.Weight = x.ItemDetails.Weight
         member x.Price  = x.ItemDetails.Price
         member x.Stats  =
