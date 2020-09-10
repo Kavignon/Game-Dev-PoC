@@ -1,13 +1,21 @@
 ﻿module GameStore
 
-open GameUnit.Dev.PoC
+open Game.Dev.PoC
 open TeamInventory
 open GameUnit
 
 type PurchaseFromStore = (int16 * GameItem) -> Inventory -> GameUnit -> (Inventory * GameUnit)
 type SellToStore = (int16 * GameItem) -> Inventory -> GameUnit -> (Inventory * GameUnit)
 
-type GameStore (inventory: Inventory, funds: int16) =
+let StoreStockCapacity = 500
+let MaxDuplicateCount = 99
+
+type StoreInventory = {
+    Items: GameItem * int list
+    Funds: int16
+}
+
+type GameStore (inventory: StoreInventory, funds: int16) =
     let mutable storeInventory = inventory
     let mutable storeFunds = funds
 
@@ -16,7 +24,7 @@ type GameStore (inventory: Inventory, funds: int16) =
             let quantityInt = (fst itemAndQty) |> int
             let itemToBePurchased = (snd itemAndQty)
 
-            if gameUnit.CanPurchaseEquipment <> true then
+            if gameUnit.CanPurchaseEquipment |> not then
                 (inventory, gameUnit)
 
             elif (quantityInt + gameUnit.Equipment.Length) < EquipmentSlotLimit then

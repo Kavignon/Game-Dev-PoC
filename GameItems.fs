@@ -1,4 +1,4 @@
-namespace GameUnit.Dev.PoC
+namespace Game.Dev.PoC
 
 open CharacterInformation
 

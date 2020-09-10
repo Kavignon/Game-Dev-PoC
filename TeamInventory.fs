@@ -1,6 +1,6 @@
 ﻿module TeamInventory
 
-open GameUnit.Dev.PoC
+open Game.Dev.PoC
 
 type Inventory = {
     Items: GameItem * int list
