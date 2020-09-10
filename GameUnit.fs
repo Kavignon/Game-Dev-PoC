@@ -4,6 +4,9 @@ open Game.Dev.PoC
 open CharacterInformation
 
 let EquipmentSlotLimit = 6
+let ConsummableItemSlotLimit = 10
+let MaxExperiencePointBeforeLevelingUp = 900
+let MaxSkillPoints = 20
 
 type GameUnit = {
     Name: string
