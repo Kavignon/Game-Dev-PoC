@@ -1,6 +1,6 @@
 ﻿module GameStore
 
-open GameUnit.Dev.PoC
+open Game.Dev.PoC
 open TeamInventory
 open GameUnit
 
@@ -16,7 +16,7 @@ type GameStore (inventory: Inventory, funds: int16) =
             let quantityInt = (fst itemAndQty) |> int
             let itemToBePurchased = (snd itemAndQty)
 
-            if gameUnit.CanPurchaseEquipment <> true then
+            if gameUnit.CanPurchaseEquipment |> not then
                 (inventory, gameUnit)
 
             elif (quantityInt + gameUnit.Equipment.Length) < EquipmentSlotLimit then

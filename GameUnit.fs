@@ -1,6 +1,6 @@
 module GameUnit
 
-open GameUnit.Dev.PoC
+open Game.Dev.PoC
 open CharacterInformation
 
 let EquipmentSlotLimit = 6
