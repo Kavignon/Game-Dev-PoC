@@ -7,7 +7,7 @@ type CharacterRole =
     | MagicSoldier of moveRange: int 
     | Sniper  of moveRange: int
 with    
-    member x.moveRange = 
+    member x.MoveRange = 
         match x with 
         | Wizard mr -> mr 
         | Knight mr -> mr 
